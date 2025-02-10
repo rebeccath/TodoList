@@ -3,6 +3,8 @@
 //jedoch nicht aus der Txt Datei.
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -12,21 +14,32 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String[] singletask;
-        ArrayList<String[]> tasks = new ArrayList<String[]>();
+        String[] onetask;
+        ArrayList<String[]> tasks = new ArrayList<>();
         Scanner navigator = new Scanner(System.in);
         int choice; //Menüvariable
-        int counter = 0;
+        int counter = 0; //Zählt die Einträge in der ArrayList tasks
+        String helpline;
 
+        //Vorherige Tasks in ArrayList einlesen
+        BufferedReader reader = new BufferedReader(new FileReader("Tasks.txt"));
         System.out.println("\n\nWelcome to Task List\n\n");
-        //Menu
+        while((helpline = reader.readLine()) != null) {
+            tasks.add(new String[]{helpline, reader.readLine()});
+            counter++;
+        }
+        reader.close();
+        System.out.println("Bisherige Tasks eingelesen.\n\n");
 
 
 
-        FileWriter writer = new FileWriter("Tasks.txt");
+
+
+
+
         while (true) {
-        counter++;
 
+            //Menu
             do {
                 System.out.println("view current Tasks (1)");
                 System.out.println("add new Task (2)");
@@ -52,7 +65,7 @@ public class Main {
             }
 
 
-            //Enter new tasks and write them into a txt-Document
+            //Enter new tasks
             if (choice == 2) {
                 Scanner text = new Scanner(System.in);
                 System.out.println("Enter title:");
@@ -60,14 +73,7 @@ public class Main {
                 System.out.println("Enter description:");
                 String description = text.nextLine();
                 tasks.add(new String[]{title, description});
-                try {
-                    writer.append(title);
-                    writer.append(",");
-                    writer.append(description);
-                    writer.append("\n");
-                } catch (IOException e) {
-                    System.out.println("Fehler beim schreiben der Datei.");
-                }
+                counter++;
             }
 
 
@@ -77,7 +83,7 @@ public class Main {
             }
 
 
-            //Tasks als erledigt markieren. Erledigte Tasks werden gelöscht.
+            //Tasks als erledigt markieren. Erledigte Tasks werden aus der ArrayList gelöscht.
             if (choice == 4) {
                 System.out.println("Welche Task möchtest du als erledigt markieren? (1,2,3,...");
                 for (int i = 0; i < tasks.size(); i++) {
@@ -89,6 +95,21 @@ public class Main {
                 int numtask = choosetask.nextInt();
                 tasks.remove((numtask-1));
                 System.out.println("Task " + numtask + " wurde erfolgreich als erledigt.\n");
+                counter--;
+            }
+
+        }
+
+        //Schreibt alle Tasks in ein Dokument
+        FileWriter writer = new FileWriter("Tasks.txt");
+        for(int i = 0; i < counter; i++) {
+            try {
+                writer.append(tasks.get(i)[0]);
+                writer.append("\n");
+                writer.append(tasks.get(i)[1]);
+                writer.append("\n");
+            } catch (IOException e) {
+                System.out.println("Fehler beim schreiben der Datei.");
             }
         }
         writer.close();
