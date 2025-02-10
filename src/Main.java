@@ -3,6 +3,8 @@
 //jedoch nicht aus der Txt Datei.
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -15,11 +17,22 @@ public class Main {
         ArrayList<Task> tasks = new ArrayList<Task>();
         Scanner navigator = new Scanner(System.in);
         int choice; //Menüvariable
-        FileWriter writer = new FileWriter("Tasks.txt");
         int counter = 0;
 
-
+        BufferedReader reader = new BufferedReader(new FileReader("Tasks.txt"));
         System.out.println("\n\nWelcome to Task List\n\n");
+        tasks.add(new Task(reader.readLine(),"test"));
+        reader.close();
+
+        FileWriter writer = new FileWriter("Tasks.txt");
+
+
+
+
+        //Vorherige Tasks einlesen!!!!!
+
+        System.out.println("Bisherige Tasks eingelesen.\n\n");
+
         //Menu
         while (true) {
         counter++;
