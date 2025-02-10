@@ -14,7 +14,6 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String[] onetask;
         ArrayList<String[]> tasks = new ArrayList<>();
         Scanner navigator = new Scanner(System.in);
         int choice; //Menüvariable
