@@ -12,15 +12,18 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        ArrayList<Task> tasks = new ArrayList<Task>();
+        String[] singletask;
+        ArrayList<String[]> tasks = new ArrayList<String[]>();
         Scanner navigator = new Scanner(System.in);
         int choice; //Menüvariable
-        FileWriter writer = new FileWriter("Tasks.txt");
         int counter = 0;
-
 
         System.out.println("\n\nWelcome to Task List\n\n");
         //Menu
+
+
+
+        FileWriter writer = new FileWriter("Tasks.txt");
         while (true) {
         counter++;
 
@@ -43,8 +46,8 @@ public class Main {
             if (choice == 1) {
                 System.out.println("Tasks:\n");
                 for (int i = 0; i < tasks.size(); i++) {
-                    System.out.println((i+1) + ") " + tasks.get(i).title); //Achtung: Das Array beginnt bei 0, die Liste aber bei 1.
-                    System.out.println(tasks.get(i).description + "\n");
+                    System.out.println((i+1) + ") " + tasks.get(i)[0]); //Achtung: Das Array beginnt bei 0, die Liste aber bei 1.
+                    System.out.println(tasks.get(i)[1] + "\n");
                 }
             }
 
@@ -56,7 +59,7 @@ public class Main {
                 String title = text.nextLine();
                 System.out.println("Enter description:");
                 String description = text.nextLine();
-                tasks.add(new Task(title, description));
+                tasks.add(new String[]{title, description});
                 try {
                     writer.append(title);
                     writer.append(",");
@@ -78,8 +81,8 @@ public class Main {
             if (choice == 4) {
                 System.out.println("Welche Task möchtest du als erledigt markieren? (1,2,3,...");
                 for (int i = 0; i < tasks.size(); i++) {
-                    System.out.println((i+1) + ") " + tasks.get(i).title + "\n");
-                    System.out.println(tasks.get(i).description);
+                    System.out.println((i+1) + ") " + tasks.get(i)[0]); //Achtung: Das Array beginnt bei 0, die Liste aber bei 1.
+                    System.out.println(tasks.get(i)[1] + "\n");
                 }
 
                 Scanner choosetask = new Scanner(System.in);
