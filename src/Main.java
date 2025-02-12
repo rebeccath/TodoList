@@ -1,7 +1,5 @@
-// Liste für die Command line
-//Speichert alle Todos in eine Txt Datei. Aufgaben können im Programm gelöscht werden
-//jedoch nicht aus der Txt Datei.
-
+//Todo Liste für die Command line
+//Speichert alle Todos in eine Txt Datei.
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,7 +15,6 @@ public class Main {
         ArrayList<String[]> tasks = new ArrayList<>();
         Scanner navigator = new Scanner(System.in);
         int choice; //Menüvariable
-        int counter = 0; //Zählt die Einträge in der ArrayList tasks
         String helpline;
 
         //Vorherige Tasks in ArrayList einlesen
@@ -25,20 +22,15 @@ public class Main {
         System.out.println("\n\nWelcome to Task List\n\n");
         while((helpline = reader.readLine()) != null) {
             tasks.add(new String[]{helpline, reader.readLine()});
-            counter++;
         }
         reader.close();
         System.out.println("Bisherige Tasks eingelesen.\n\n");
 
 
 
-
-
-
-
         while (true) {
 
-            //Menu
+            //Hauptmenü
             do {
                 System.out.println("view current Tasks (1)");
                 System.out.println("add new Task (2)");
@@ -54,7 +46,7 @@ public class Main {
             }
             while (choice != 1 && choice != 2 && choice != 3 && choice != 4);
 
-            //View Tasks
+            //alle Tasks ausgeben
             if (choice == 1) {
                 System.out.println("Tasks:\n");
                 for (int i = 0; i < tasks.size(); i++) {
@@ -64,7 +56,7 @@ public class Main {
             }
 
 
-            //Enter new tasks
+            //neue Tasks hinzufügen
             if (choice == 2) {
                 Scanner text = new Scanner(System.in);
                 System.out.println("Enter title:");
@@ -72,9 +64,7 @@ public class Main {
                 System.out.println("Enter description:");
                 String description = text.nextLine();
                 tasks.add(new String[]{title, description});
-                counter++;
             }
-
 
             //exit
             if (choice == 3) {
@@ -86,7 +76,7 @@ public class Main {
             if (choice == 4) {
                 System.out.println("Welche Task möchtest du als erledigt markieren? (1,2,3,...");
                 for (int i = 0; i < tasks.size(); i++) {
-                    System.out.println((i+1) + ") " + tasks.get(i)[0]); //Achtung: Das Array beginnt bei 0, die Liste aber bei 1.
+                    System.out.println((i+1) + ") " + tasks.get(i)[0]); //Achtung: Das Array beginnt bei 0, die Liste aber bei 1. Daher in Zeile 92-1
                     System.out.println(tasks.get(i)[1] + "\n");
                 }
 
@@ -94,14 +84,13 @@ public class Main {
                 int numtask = choosetask.nextInt();
                 tasks.remove((numtask-1));
                 System.out.println("Task " + numtask + " wurde erfolgreich als erledigt.\n");
-                counter--;
             }
 
         }
 
         //Schreibt alle Tasks in ein Dokument
         FileWriter writer = new FileWriter("Tasks.txt");
-        for(int i = 0; i < counter; i++) {
+        for(int i = 0; i < tasks.size(); i++) {
             try {
                 writer.append(tasks.get(i)[0]);
                 writer.append("\n");
